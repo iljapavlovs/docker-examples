@@ -78,3 +78,9 @@ In a nutshell
 * RUN executes command(s) in a new layer and creates a new image. E.g., it is often used for installing software packages.
 * CMD sets default command and/or parameters, which can be overwritten from command line when docker container runs.
 * ENTRYPOINT configures a container that will run as an executable.
+
+## Getting Host IP
+
+Mac:
+`docker.for.mac.localhost` no longer works, at least Docker for Mac Edge Version 18.03.0-ce-rc4-mac57 (23360). Use `docker.for.mac.host.internal` instead! (link)[https://forums.docker.com/t/understanding-the-docker-for-mac-localhost-behavior/41921/2]
+however should be `host.docker.internal` for Windows and Mac, but due to https://github.com/docker/for-mac/issues/2965 doesn`t work on Mac
