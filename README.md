@@ -90,7 +90,23 @@ however should be `host.docker.internal` for Windows and Mac, but due to https:/
 ### Running MySQL DB
 Based on [Customize your MySQL database in Docker](https://medium.com/@lvthillo/customize-your-mysql-database-in-docker-723ffd59d8fb)
 
-1. Create **Dockerfile**
+1. Create SQL scripts for table creation and data insertion
+Write a `CreateTable.sql`. This file contains the SQL statement to create a table called employees. 
+```sql
+CREATE TABLE employees (
+first_name varchar(25),
+last_name  varchar(25),
+department varchar(15),
+email  varchar(50)
+);
+```
+Write a `InsertData.sql`. This file contains our statement to insert data in the table ‘employees’.
+```sql
+INSERT INTO employees (first_name, last_name, department, email) 
+VALUES ('Lorenz', 'Vanthillo', 'IT', 'lvthillo@mail.com');
+```
+
+2. Create **Dockerfile**
 ```
 # Derived from official mysql image (our base image)
 FROM mysql
@@ -101,14 +117,16 @@ ENV MYSQL_DATABASE company
 # executed during container startup
 COPY ./sql-scripts/ /docker-entrypoint-initdb.d/
 ```
+**NOTE** - All scripts in `docker-entrypoint-initdb.d/` are automatically executed during container startup
 
-2. Create Docker **image**:
+
+3. Create Docker **image**:
 
 ```bash
 docker build -t my-mysql .
 ```
 
-3. Start your MySQL container from the image:
+4. Start your MySQL container from the image:
 ```bash
 docker run -d -p 3306:3306 --name my-mysql \
 -e MYSQL_ROOT_PASSWORD=supersecret my-mysql
@@ -119,7 +137,7 @@ docker run -d -p 3306:3306 --name my-mysql \
 `-e`- set environment variables
 `my-mysql` - name of the **image**
 
-4. Verify - `exec` inside the container:
+5. Verify - `exec` inside the container:
 ```bash
 docker exec -it my-mysql bash
 
