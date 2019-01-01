@@ -88,6 +88,7 @@ however should be `host.docker.internal` for Windows and Mac, but due to https:/
 
 ## Examples
 ### Running MySQL DB
+Based on (Customize your MySQL database in Docker)[https://medium.com/@lvthillo/customize-your-mysql-database-in-docker-723ffd59d8fb]
 
 1. Create **Dockerfile**
 ```
@@ -166,3 +167,19 @@ mysql> select * from employees;
 1 row in set (0.01 sec)
 ```
 
+But in some cases this is not the best solution:
+
+* If you insert a lot of data your image size will grow significantly
+* Need to build a new image when you want to update the data
+That’s why there is another way to customize your Docker MySQL.
+
+#### Use bind mounts to customize your MySQL database in Docker
+
+```bash
+docker run -d -p 3306:3306 --name my-mysql \
+-v ~/my-mysql/sql-scripts:/docker-entrypoint-initdb.d/ \
+-e MYSQL_ROOT_PASSWORD=supersecret \
+-e MYSQL_DATABASE=company \
+mysql
+```
+Using this method is already more flexible but it will be a little bit harder to distribute among the developers. They all need to store the scripts in a certain directory on their local machine and they need to point to that directory when they execute the docker run command.
