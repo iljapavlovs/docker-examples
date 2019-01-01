@@ -84,3 +84,32 @@ In a nutshell
 Mac:
 `docker.for.mac.localhost` no longer works, at least Docker for Mac Edge Version 18.03.0-ce-rc4-mac57 (23360). Use `docker.for.mac.host.internal` instead! [link](https://forums.docker.com/t/understanding-the-docker-for-mac-localhost-behavior/41921/2)
 however should be `host.docker.internal` for Windows and Mac, but due to https://github.com/docker/for-mac/issues/2965 doesn`t work on Mac
+
+
+## Examples
+### Running MySQL DB
+
+1. Create **Dockerfile**
+```
+# Derived from official mysql image (our base image)
+FROM mysql
+# Add a database
+ENV MYSQL_DATABASE company
+# Add the content of the sql-scripts/ directory to your image
+# All scripts in docker-entrypoint-initdb.d/ are automatically
+# executed during container startup
+COPY ./sql-scripts/ /docker-entrypoint-initdb.d/
+```
+
+2. Create Docker **image**:
+
+```bash
+docker build -t my-mysql .
+```
+
+3. Start your MySQL container from the image:
+```bash
+docker run -d -p 3306:3306 --name my-mysql \
+-e MYSQL_ROOT_PASSWORD=supersecret my-mysql
+```
+
