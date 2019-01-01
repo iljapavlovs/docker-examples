@@ -88,7 +88,7 @@ however should be `host.docker.internal` for Windows and Mac, but due to https:/
 
 ## Examples
 ### Running MySQL DB
-Based on (Customize your MySQL database in Docker)[https://medium.com/@lvthillo/customize-your-mysql-database-in-docker-723ffd59d8fb]
+Based on [Customize your MySQL database in Docker](https://medium.com/@lvthillo/customize-your-mysql-database-in-docker-723ffd59d8fb)
 
 1. Create **Dockerfile**
 ```
