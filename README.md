@@ -112,4 +112,57 @@ docker build -t my-mysql .
 docker run -d -p 3306:3306 --name my-mysql \
 -e MYSQL_ROOT_PASSWORD=supersecret my-mysql
 ```
+`-d` - run container in detached mode, in a background, as a service
+`-p` - expose port outside the docker network (`--publish , -p`		Publish a container’s port(s) to the host)
+`--name` - name container so that it would be easier to manage it
+`-e`- set environment variables
+`my-mysql` - name of the **image**
+
+4. Verify - `exec` inside the container:
+```bash
+docker exec -it my-mysql bash
+
+
+root@c86ff80d7524:/# mysql -uroot -p
+Enter password: (supersecret)
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| company            |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+mysql> use company;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_company |
++-------------------+
+| employees         |
++-------------------+
+1 row in set (0.00 sec)
+mysql> show columns from employees;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| first_name | varchar(25) | YES  |     | NULL    |       |
+| last_name  | varchar(25) | YES  |     | NULL    |       |
+| department | varchar(15) | YES  |     | NULL    |       |
+| email      | varchar(50) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+mysql> select * from employees;
++------------+-----------+------------+-------------------+
+| first_name | last_name | department | email             |
++------------+-----------+------------+-------------------+
+| Lorenz     | Vanthillo | IT         | lvthillo@mail.com |
++------------+-----------+------------+-------------------+
+1 row in set (0.01 sec)
+```
 
