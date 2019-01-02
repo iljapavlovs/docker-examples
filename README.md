@@ -88,6 +88,7 @@ however should be `host.docker.internal` for Windows and Mac, but due to https:/
 
 ## Examples
 ### Running MySQL DB
+#### I. Using Dockerfile directly
 Based on [Customize your MySQL database in Docker](https://medium.com/@lvthillo/customize-your-mysql-database-in-docker-723ffd59d8fb)
 
 1. Create SQL scripts for table creation and data insertion
@@ -201,3 +202,26 @@ docker run -d -p 3306:3306 --name my-mysql \
 mysql
 ```
 Using this method is already more flexible but it will be a little bit harder to distribute among the developers. They all need to store the scripts in a certain directory on their local machine and they need to point to that directory when they execute the docker run command.
+
+#### II. Using docker-compose
+Add docker-compose.yml config file:
+```
+version: '3.1'
+services:
+  database:
+#    uses a public MySQL image pulled from the Docker Hub registry
+    image: mysql
+    #OR Use an image that’s built from the Dockerfile in the current directory.
+    #    build: .
+    command: --default-authentication-plugin=mysql_native_password
+#    volumes:
+#      - ./mysql/01_setup.sql:/docker-entrypoint-initdb.d/01_setup.sql:ro
+#      - ./mysql/02_init_data.sql:/docker-entrypoint-initdb.d/02_init_data.sql:ro
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: university
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+``` 
