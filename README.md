@@ -40,12 +40,17 @@ docker container ls -aq
 **Need to push 2 times - with the tag and tag = latest. When performing `docker pull`, then if no tag is specified, then Docker will take image with `:latest` tag ONLY**
 
 ```bash
+docker tag country-phone:<image_id> ilja07/country-phone:<tag>
+```
+
+```bash
 docker tag country-phone ilja07/country-phone:0.0.1-SNAPSHOT
 ```
 
 ```bash
 docker tag country-phone ilja07/country-phone:latest
 ```
+
 3. Push the image to docker hub
 ```bash
 docker push ilja07/country-phone:0.0.1-SNAPSHOT
