@@ -33,6 +33,28 @@ docker container ls --all
 docker container ls -aq
 ```
 
+## Docker push
+1. Login with your Docker Id `docker login`, create a Docker Hub repo with the same title
+2. Tag the image (To push a local image to docker registry, you need to associate the local image with a repository on the docker registry. The notation for the repository on docker registry is `username/repository:tag`)
+
+**Need to push 2 times - with the tag and tag = latest. When performing `docker pull`, then if no tag is specified, then Docker will take image with `:latest` tag ONLY**
+
+```bash
+docker tag country-phone ilja07/country-phone:0.0.1-SNAPSHOT
+```
+
+```bash
+docker tag country-phone ilja07/country-phone:latest
+```
+3. Push the image to docker hub
+```bash
+docker push ilja07/country-phone:0.0.1-SNAPSHOT
+```   
+
+```bash
+docker push ilja07/country-phone:latest
+```  
+
 
 Here is a list of the basic Docker commands from this page, and some related ones if you’d like to explore a bit before moving on.
 
@@ -85,6 +107,8 @@ Mac:
 `docker.for.mac.localhost` no longer works, at least Docker for Mac Edge Version 18.03.0-ce-rc4-mac57 (23360). Use `docker.for.mac.host.internal` instead! [link](https://forums.docker.com/t/understanding-the-docker-for-mac-localhost-behavior/41921/2)
 however should be `host.docker.internal` for Windows and Mac, but due to https://github.com/docker/for-mac/issues/2965 doesn`t work on Mac
 
+
+## 
 
 ## Examples
 ### Running MySQL DB
